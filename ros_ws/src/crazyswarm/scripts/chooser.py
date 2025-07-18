@@ -9,6 +9,13 @@ import subprocess
 import re
 import time
 import threading
+from cflib.crazyflie import Crazyflie
+from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
+from cflib.utils import uri_helper
+import cflib.crtp
+
+# Initialize Crazyflie drivers (only once per script)
+cflib.crtp.init_drivers(enable_debug_driver=False)
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
@@ -233,6 +240,30 @@ if __name__ == '__main__':
 				widgetText = "Err"
 
 			widgets[crazyflie["id"]].batteryLabel.config(foreground=color, text=widgetText)
+		
+	def setActiveMarkerDeck():
+		nodes = selected_cfs()
+
+		for crazyflie in nodes:
+			id = "{0:02X}".format(crazyflie["id"])
+			uri = "radio://0/{}/2M/E7E7E7E7{}".format(crazyflie["channel"], id)
+			print(f"Trying to connect to {uri}")
+			try:
+				cf = Crazyflie(rw_cache='./cache')
+				def setRelevantParms(link_uri):
+					print(f"Connected to {link_uri}, activing activeMarker...")
+					for side in ['front', 'back', 'left', 'right']:
+						param_name = f"activeMarker.{side}"
+						cf.param.set_value(param_name, "255")
+					cf.param.set_value('activeMarker.mode', "1")
+	
+				cf.fully_connected.add_callback(setRelevantParms)
+				cf.open_link(uri)
+				time.sleep(6)
+				print("Done.")
+				cf.close_link()
+			except Exception as e:
+				print(f"Failed to connect or set params for {uri}: {e}")
 
 	# def checkVersion():
 	# 	for id, w in widgets.items():
@@ -274,6 +305,7 @@ if __name__ == '__main__':
 	mkbutton(scriptButtons, "reboot", reboot)
 	mkbutton(scriptButtons, "flash (STM)", flashSTM)
 	mkbutton(scriptButtons, "flash (NRF)", flashNRF)
+	mkbutton(scriptButtons, "Turn on ActiveMarker", setActiveMarkerDeck)
 
 	# start background threads
 	def checkBatteryLoop():
