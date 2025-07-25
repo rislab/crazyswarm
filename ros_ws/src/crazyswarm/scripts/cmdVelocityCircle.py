@@ -5,13 +5,13 @@ from pycrazyswarm import *
 
 
 Z = 1.0
-sleepRate = 30
+sleepRate = 5
 
 
 def goCircle(timeHelper, cf, totalTime, radius, kPosition):
         startTime = timeHelper.time()
         pos = cf.position()
-        startPos = cf.initialPosition + np.array([0, 0, Z])
+        startPos = np.array([0, 0, Z])
         center_circle = startPos - np.array([radius, 0, 0])
         while True:
             time = timeHelper.time() - startTime
@@ -30,6 +30,6 @@ if __name__ == "__main__":
     timeHelper = swarm.timeHelper
     allcfs = swarm.allcfs
 
-    allcfs.takeoff(targetHeight=Z, duration=1.0+Z)
+    allcfs.crazyflies[0].takeoff(targetHeight=Z, duration=1.0+Z)
     timeHelper.sleep(2 + Z)
-    goCircle(timeHelper, allcfs.crazyflies[0], totalTime=4, radius=1, kPosition=1)
+    goCircle(timeHelper, allcfs.crazyflies[0], totalTime=5, radius=1, kPosition=1)

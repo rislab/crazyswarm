@@ -252,9 +252,9 @@ if __name__ == '__main__':
 				cf = Crazyflie(rw_cache='./cache')
 				def setRelevantParms(link_uri):
 					print(f"Connected to {link_uri}, activing activeMarker...")
-					for side in ['front', 'back', 'left', 'right']:
+					for side in ['left']:
 						param_name = f"activeMarker.{side}"
-						cf.param.set_value(param_name, "255")
+						cf.param.set_value(param_name, "254")
 					cf.param.set_value('activeMarker.mode', "1")
 	
 				cf.fully_connected.add_callback(setRelevantParms)

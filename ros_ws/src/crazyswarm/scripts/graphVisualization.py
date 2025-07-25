@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """Demonstrates the graph visualization feature of the 3D visualizer."""
-
+## Assumes 5 Crazyflies
 import numpy as np
 
 from pycrazyswarm import *

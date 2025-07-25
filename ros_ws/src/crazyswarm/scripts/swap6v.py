@@ -5,6 +5,7 @@ import numpy as np
 from pycrazyswarm import *
 import pycrazyswarm.cfsim.cffirmware as firm
 import uav_trajectory
+## Assumes 6 Crazyflies
 
 TIMESCALE = 1.0
 
@@ -24,7 +25,7 @@ if __name__ == "__main__":
     timeHelper = swarm.timeHelper
     allcfs = swarm.allcfs
 
-    ids = [15, 16, 17, 18, 19, 20] #[15, 16, 17] #range(1, 6+1)
+    ids = [1, 2, 3] #[15, 16, 17] #range(1, 6+1)
     trajIds = [1, 2, 3, 4, 5, 6] #[1, 2, 3, 4, 5, 6]
 
     cfs = [allcfs.crazyfliesById[i] for i in ids]
