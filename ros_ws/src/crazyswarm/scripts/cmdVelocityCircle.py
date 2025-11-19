@@ -5,7 +5,7 @@ from pycrazyswarm import *
 
 
 Z = 1.0
-sleepRate = 5
+sleepRate = 1
 
 
 def goCircle(timeHelper, cf, totalTime, radius, kPosition):
@@ -22,7 +22,7 @@ def goCircle(timeHelper, cf, totalTime, radius, kPosition):
                 [np.cos(omega * time), np.sin(omega * time), 0])
             errorX = desiredPos - cf.position() 
             cf.cmdVelocityWorld(np.array([vx, vy, 0] + kPosition * errorX), yawRate=0)
-            timeHelper.sleepForRate(sleepRate)
+            timeHelper.sleep(10)
 
 
 if __name__ == "__main__":
@@ -32,4 +32,4 @@ if __name__ == "__main__":
 
     allcfs.crazyflies[0].takeoff(targetHeight=Z, duration=1.0+Z)
     timeHelper.sleep(2 + Z)
-    goCircle(timeHelper, allcfs.crazyflies[0], totalTime=5, radius=1, kPosition=1)
+    goCircle(timeHelper, allcfs.crazyflies[0], totalTime=1, radius=1, kPosition=0.01)
